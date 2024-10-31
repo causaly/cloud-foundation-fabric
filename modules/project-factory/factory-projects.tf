@@ -20,7 +20,7 @@ locals {
   _hierarchy_projects = (
     {
       for f in try(fileset(local._folders_path, "**/*.yaml"), []) :
-      basename(trimsuffix(f, ".yaml")) => merge(
+      trimsuffix(f, ".yaml") => merge(
         { parent = dirname(f) == "." ? "default" : dirname(f) },
         yamldecode(file("${local._folders_path}/${f}"))
       )
@@ -47,7 +47,7 @@ locals {
     for v in local._project_budgets : v.budget => v.project...
   }
   projects = {
-    for k, v in local._projects : lookup(v, "name", k) => merge(v, {
+    for k, v in local._projects : "${lookup(v, "prefix", var.data_defaults.prefix)}-${lookup(v, "name", basename(k))}" => merge(v, {
       billing_account = try(coalesce(
         var.data_overrides.billing_account,
         try(v.billing_account, null),
@@ -136,7 +136,7 @@ locals {
   service_accounts = flatten([
     for k, v in local.projects : [
       for name, opts in v.service_accounts : {
-        project = k
+        project = v.name
         name    = name
         display_name = coalesce(
           try(var.data_overrides.service_accounts.display_name, null),

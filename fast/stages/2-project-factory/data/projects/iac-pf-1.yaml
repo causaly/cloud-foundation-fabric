@@ -1,0 +1,8 @@
+name: iac-pf-1
+parent: example
+services:
+  - iam.googleapis.com
+  - cloudresourcemanager.googleapis.com
+  - compute.googleapis.com
+  - storage.googleapis.com
+  - serviceusage.googleapis.com

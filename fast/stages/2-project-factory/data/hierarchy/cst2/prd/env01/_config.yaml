@@ -14,9 +14,9 @@
 
 # yaml-language-server: $schema=../../../../schemas/folder.schema.json
 
-name: Development
+name: env01
 tag_bindings:
-  environment: environment/development
+  environment: environment/production
 # iam_by_principals:
-#   "group:team-b-admins@example.com":
+#   "group:team-a-admins@example.com":
 #     - roles/editor
