@@ -24,6 +24,7 @@ locals {
         name               = ks
         prefix             = v.prefix
         project            = k
+        short_name         = v.name
       })
     ]
   ])
@@ -34,6 +35,7 @@ locals {
         name               = ks
         prefix             = v.prefix
         project            = k
+        short_name         = v.name
       })
     ]
   ])
@@ -46,7 +48,7 @@ module "automation-buckets" {
   }
   project_id     = each.value.automation_project
   prefix         = each.value.prefix
-  name           = "${each.value.project}-${each.value.name}"
+  name           = "${each.value.short_name}-${each.value.name}"
   encryption_key = lookup(each.value, "encryption_key", null)
   iam = {
     for k, v in lookup(each.value, "iam", {}) : k => [
@@ -91,7 +93,7 @@ module "automation-service-accounts" {
   }
   project_id  = each.value.automation_project
   prefix      = each.value.prefix
-  name        = "${each.value.project}-${each.value.name}"
+  name        = "${each.value.short_name}-${each.value.name}"
   description = lookup(each.value, "description", null)
   display_name = lookup(
     each.value,

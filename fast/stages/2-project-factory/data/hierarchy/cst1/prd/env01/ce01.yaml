@@ -1,0 +1,34 @@
+name: prd-env01-ce01
+prefix: cst1
+services:
+  - compute.googleapis.com
+iam:
+  roles/owner:
+    # refer to the rw service account defined below
+    - rw
+  roles/viewer:
+    # refer to the ro service account defined below
+    - ro
+automation:
+  # no context is possible here
+  # use the complete project id
+  project: main-iac-pf-1
+  service_accounts:
+    # resulting sa name: xxx-dev-ta-app-0-rw
+    rw:
+      description: Read/write automation sa for team a app 0.
+    # resulting sa name: xxx-dev-ta-app-0-ro
+    ro:
+      description: Read-only automation sa for team a app 0.
+  buckets:
+    # resulting bucket name: xxx-dev-ta-app-0-state
+    state:
+      description: Terraform state bucket for team a app 0.
+      iam:
+        # service accounts can use short name substitutions from context
+        roles/storage.objectCreator:
+          - rw
+        roles/storage.objectViewer:
+          - rw
+          - ro
+          - group:devops@example.org

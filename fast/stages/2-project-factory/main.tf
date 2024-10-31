@@ -21,14 +21,12 @@ module "projects" {
   data_defaults = {
     # more defaults are available, check the project factory variables
     billing_account = var.billing_account.id
+    prefix          = var.prefix
   }
   data_merges = {
     services = [
       "stackdriver.googleapis.com"
     ]
-  }
-  data_overrides = {
-    prefix = var.prefix
   }
   factories_config = merge(var.factories_config, {
     context = {
