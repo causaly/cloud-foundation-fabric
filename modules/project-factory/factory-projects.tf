@@ -136,7 +136,7 @@ locals {
   service_accounts = flatten([
     for k, v in local.projects : [
       for name, opts in v.service_accounts : {
-        project = v.name
+        project = k
         name    = name
         display_name = coalesce(
           try(var.data_overrides.service_accounts.display_name, null),
